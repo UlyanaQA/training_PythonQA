@@ -1,2 +1,2 @@
-# training_PytnonQA
+# training_PythonQA
 Homework storage
