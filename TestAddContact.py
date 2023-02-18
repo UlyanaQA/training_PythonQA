@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -15,7 +17,9 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
+        # Open home page
         wd.get("http://localhost/addressbook/edit.php")
+        # Login
         wd.find_element(By.NAME, "user").click()
         wd.find_element(By.NAME, "user").clear()
         wd.find_element(By.NAME, "user").send_keys("admin")
@@ -23,6 +27,9 @@ class TestAddContact(unittest.TestCase):
         wd.find_element(By.NAME, "pass").clear()
         wd.find_element(By.NAME, "pass").send_keys("secret")
         wd.find_element(By.XPATH, "//input[@value='Login']").click()
+        # Open contact page
+        wd.find_element(By.LINK_TEXT, "add new").click()
+        # Create contact
         wd.find_element(By.NAME, "firstname").click()
         wd.find_element(By.NAME, "firstname").clear()
         wd.find_element(By.NAME, "firstname").send_keys("Test_first")
@@ -92,9 +99,15 @@ class TestAddContact(unittest.TestCase):
         wd.find_element(By.NAME, "notes").clear()
         wd.find_element(By.NAME, "notes").send_keys("Some notes")
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
-        wd.find_element(By.LINK_TEXT, "home page").click()
+        # Return to add new
+        wd.find_element(By.LINK_TEXT, "add new").click()
         wd.get("http://localhost/addressbook/index.php")
+        # Logout
+        time.sleep(2)
+        # wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "Logout").click()
+        time.sleep(2)
+        wd.find_element(By.NAME, "user")
 
     def is_element_present(self, how, what):
         try:
@@ -109,7 +122,6 @@ class TestAddContact(unittest.TestCase):
         except NoAlertPresentException as e:
             return False
         return True
-
 
     def tearDown(self):
         self.wd.quit()
