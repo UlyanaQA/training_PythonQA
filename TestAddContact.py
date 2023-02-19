@@ -20,10 +20,10 @@ class TestAddContact(unittest.TestCase):
         self.open_home_page(wd)
         self.Login(wd, username="admin", password="secret")
         self.open_add_contact_page(wd)
-        self.create_new_contact(wd, "Test_first", "Test_middle", "Test_last", "Nick", "Test_title", "SpaceX",
-                                "The Earth", "12345678", "87654321", "1234", "4321", "mozgulya@gmail.com",
-                                "test@ght.ru", "test@kil.com", "space.ru", "6", "March", "1997", "6", "March", "2023",
-                                "The Earth", "89217629999", "Some notes")
+        self.create_new_contact(wd, firstname="Test_first", middlename="Test_middle", lastname="Test_last", nickname="Nick", title="Test_title", company="SpaceX",
+                                address="The Earth", phone1="12345678", mobilephone="87654321", workphone="1234", fax="4321", email1="mozgulya@gmail.com",
+                                email2="test@ght.ru", email3="test@kil.com", site="space.ru", bday="6", bmonth="March", byear="1997", aday="6", amonth="March", ayear="2023",
+                                address2="The Earth", phone2="89217629999", notes="Some notes")
         self.return_to_add_new(wd)
         # wd.get("http://localhost/addressbook/index.php")
         self.logout(wd)
