@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
-import time
 
 import pytest
 from contact import Contact
-from app_contact import AppContact
+from application import Application
 
 
 @pytest.fixture
 def app(request):
-    fixture = AppContact()
+    fixture = Application()
     request.addfinalizer(fixture.destroy)
     return fixture
 
 
 def test_add_contact(app):
-    app.Login(username="admin", password="secret")
+    app.login(username="admin", password="secret")
     app.open_add_contact_page()
     app.create_new_contact(
         Contact(firstname="Test_first", middlename="Test_middle", lastname="Test_last", nickname="Nick",
@@ -24,4 +23,5 @@ def test_add_contact(app):
                 email2="test@ght.ru", email3="test@kil.com", site="space.ru", bday="6", bmonth="March",
                 byear="1997", aday="7", amonth="March", ayear="2023",
                 address2="The Earth", phone2="89217629999", notes="Some notes"))
+    app.return_to_add_new()
     app.logout()
