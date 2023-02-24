@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# Test add contact. One fixture
 import pytest
 from contact import Contact
 from application import Application
