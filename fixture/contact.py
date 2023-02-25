@@ -90,3 +90,16 @@ class ContactHelper:
         wd = self.app.wd
         # Open contact page
         wd.find_element(By.LINK_TEXT, "add new").click()
+
+    def open_contact_list(self):
+        wd = self.app.wd
+        # Open contact list (home)
+        wd.find_element(By.LINK_TEXT, "home").click()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        self.open_contact_list()
+        # select first group
+        wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
+        # submit deletion
+        wd.find_element(By.XPATH, "//div[@id='content']/form[2]/input[2]").click()
