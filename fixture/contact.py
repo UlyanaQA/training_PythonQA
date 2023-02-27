@@ -13,7 +13,6 @@ class ContactHelper:
 
     def return_to_home(self):
         wd = self.app.wd
-        # Return to add new
         wd.find_element(By.LINK_TEXT, "home").click()
 
     def create_new(self, contact):
