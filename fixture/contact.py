@@ -9,7 +9,6 @@ class ContactHelper:
 
     def return_to_add_new(self):
         wd = self.app.wd
-        # Return to add new
         wd.find_element(By.LINK_TEXT, "add new").click()
 
     def return_to_home(self):
