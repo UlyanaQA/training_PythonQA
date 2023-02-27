@@ -12,6 +12,7 @@ class ContactHelper:
 
     def create_new(self, contact):
         wd = self.app.wd
+        self.open_add_contact_page()
         self.fill_contact_form(contact)
         # Submit contact creation
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
@@ -37,8 +38,8 @@ class ContactHelper:
         self.change_contact_date("bday", contact.bday)
         self.change_contact_date("bmonth", contact.bmonth)
         self.change_contact_field("byear", contact.byear)
-        self.change_contact_date("aday", contact.bday)
-        self.change_contact_date("amonth", contact.bmonth)
+        self.change_contact_date("aday", contact.aday)
+        self.change_contact_date("amonth", contact.amonth)
         self.change_contact_field("ayear", contact.ayear)
         self.change_contact_field("address2", contact.address2)
         self.change_contact_field("phone2", contact.phone2)
@@ -69,9 +70,10 @@ class ContactHelper:
     def delete_first_contact(self):
         wd = self.app.wd
         self.open_contact_list()
-        self.open_edit_page()
+        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_element(By.XPATH, "//input[@value='Delete']").click()
         # submit deletion
-        wd.find_element(By.XPATH, "//div[@id='content']/form[2]/input[2]").click()
+        wd.switch_to.alert.accept()
 
     def open_edit_page(self):
         wd = self.app.wd
@@ -85,3 +87,7 @@ class ContactHelper:
         self.fill_contact_form(edit_contact)
         # submit edition
         wd.find_element(By.XPATH, "//div[@id='content']/form/input[22]").click()
+
+    def is_list_empty(self):
+        wd = self.app.wd
+        return wd.find_element(By.ID, "search_count").text == "0"
