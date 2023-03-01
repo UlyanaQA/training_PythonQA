@@ -90,4 +90,5 @@ class ContactHelper:
 
     def is_list_empty(self):
         wd = self.app.wd
+        self.open_contact_list()
         return wd.find_element(By.ID, "search_count").text == "0"
