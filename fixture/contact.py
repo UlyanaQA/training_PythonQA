@@ -60,12 +60,13 @@ class ContactHelper:
 
     def open_add_contact_page(self):
         wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "add new").click()
+        if not (wd.current_url.endswith("/edit.php") and len(wd.find_elements(By.NAME, "submit")) > 0):
+            wd.find_element(By.LINK_TEXT, "add new").click()
 
     def open_contact_list(self):
         wd = self.app.wd
-        # Open contact list (home)
-        wd.find_element(By.LINK_TEXT, "home").click()
+        if not (wd.current_url.endswith("/addressbook") and len(wd.find_elements(By.NAME, "add")) > 0):
+            wd.find_element(By.LINK_TEXT, "home").click()
 
     def delete_first_contact(self):
         wd = self.app.wd
