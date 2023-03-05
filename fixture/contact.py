@@ -1,5 +1,8 @@
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+
 
 from model.contact import Contact
 
@@ -77,6 +80,7 @@ class ContactHelper:
         wd.find_element(By.XPATH, "//input[@value='Delete']").click()
         # submit deletion
         wd.switch_to.alert.accept()
+        WebDriverWait(wd, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.msgbox")))
 
     def open_edit_page(self):
         wd = self.app.wd
