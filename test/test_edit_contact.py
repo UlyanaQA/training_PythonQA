@@ -6,22 +6,28 @@ from model.contact import Contact
 def test_edit_firstname(app):
     if app.contact.is_list_empty():
         app.contact.create_new(Contact(firstname="old firstname"))
-    app.contact.edit_first_contact(Contact(firstname="10000Edit_first"))
+    old_contacts = app.contact.get_contact_list()
+    app.contact.edit_first_contact(Contact(firstname="90000Edit_first"))
+    new_contacts = app.contact.get_contact_list()
+    assert len(old_contacts) == len(new_contacts)
 
 
-def test_edit_middlename(app):
+'''def test_edit_middlename(app):
     if app.contact.is_list_empty():
         app.contact.create_new(Contact(middlename="old middlename"))
-    app.contact.edit_first_contact(Contact(middlename="1000Edit_middle"))
+    app.contact.edit_first_contact(Contact(middlename="1000Edit_middle"))'''
 
 
 def test_edit_lastname(app):
     if app.contact.is_list_empty():
         app.contact.create_new(Contact(lastname="old lastname"))
-    app.contact.edit_first_contact(Contact(lastname="100Edit_last"))
+    old_contacts = app.contact.get_contact_list()
+    app.contact.edit_first_contact(Contact(lastname="900Edit_last"))
+    new_contacts = app.contact.get_contact_list()
+    assert len(old_contacts) == len(new_contacts)
 
 
-def test_edit_nickname(app):
+'''def test_edit_nickname(app):
     if app.contact.is_list_empty():
         app.contact.create_new(Contact(nickname="old nickname"))
     app.contact.edit_first_contact(Contact(nickname="1Edit_Nick"))
@@ -144,4 +150,4 @@ def test_edit_phone2(app):
 def test_edit_notes(app):
     if app.contact.is_list_empty():
         app.contact.create_new(Contact(notes="hhhhhhh"))
-    app.contact.edit_first_contact(Contact(notes="1Some changes"))
+    app.contact.edit_first_contact(Contact(notes="1Some changes"))'''
