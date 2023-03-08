@@ -75,27 +75,29 @@ class ContactHelper:
             wd.find_element(By.LINK_TEXT, "home").click()
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_contact_list()
-        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_elements(By.NAME, "selected[]")[index].click()
         wd.find_element(By.XPATH, "//input[@value='Delete']").click()
         # submit deletion
         wd.switch_to.alert.accept()
         WebDriverWait(wd, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.msgbox")))
         self.contact_cache = None
 
-    def open_edit_page(self):
-        wd = self.app.wd
-        wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
+    def edit_first_contact(self):
+        self.edit_contact_by_index(0)
 
-    def edit_first_contact(self, edit_contact):
+    def edit_contact_by_index(self, index, edit_contact):
         wd = self.app.wd
         self.open_contact_list()
-        self.open_edit_page()
+        wd.find_elements(By.XPATH, "//img[@alt='Edit']")[index].click()
         # fill new contact data
         self.fill_contact_form(edit_contact)
         # submit edition
-        wd.find_element(By.XPATH, "//div[@id='content']/form/input[22]").click()
+        wd.find_element(By.NAME, "update").click()
         self.contact_cache = None
 
     def is_list_empty(self):
