@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+import re
 
 
 from model.contact import Contact
@@ -100,6 +101,44 @@ class ContactHelper:
         wd.find_element(By.NAME, "update").click()
         self.contact_cache = None
 
+    def open_contact_to_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_contact_list()
+        wd.find_elements(By.XPATH, "//img[@alt='Edit']")[index].click()
+
+    def open_contact_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_contact_list()
+        wd.find_elements(By.XPATH, "//img[@alt='Details']")[index].click()
+
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_index(index)
+        firstname = wd.find_element(By.NAME, "firstname").get_attribute("value")
+        lasttname = wd.find_element(By.NAME, "lastname").get_attribute("value")
+        id = wd.find_element(By.NAME, "id").get_attribute("value")
+        homephone = wd.find_element(By.NAME, "home").get_attribute("value")
+        workphone = wd.find_element(By.NAME, "work").get_attribute("value")
+        mobilephone = wd.find_element(By.NAME, "mobile").get_attribute("value")
+        secondaryphone = wd.find_element(By.NAME, "phone2").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lasttname, id=id,
+                       homephone=homephone, mobilephone=mobilephone, workphone=workphone,
+                       secondaryphone=secondaryphone)
+
+    def get_contact_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_contact_view_by_index(index)
+        text = wd.find_element(By.ID, "content").text
+        homephone = re.search("H: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        secondaryphone = re.search("P: (.*)", text).group(1)
+        return Contact(homephone=homephone, mobilephone=mobilephone, workphone=workphone,
+                       secondaryphone=secondaryphone)
+
+
+
+
     def is_list_empty(self):
         wd = self.app.wd
         self.open_contact_list()
@@ -118,8 +157,12 @@ class ContactHelper:
             self.open_contact_list()
             self.contact_cache = []
             for element in wd.find_elements(By.CSS_SELECTOR, "[name=entry]"):
+                cells = element.find_elements(By.TAG_NAME, "td")
                 lastname = element.find_element(By.XPATH, "./td[2]").text
                 firstname = element.find_element(By.XPATH, "./td[3]").text
                 id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+                all_phones = cells[5].text.splitlines()
+                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
+                                                  homephone=all_phones[0], mobilephone=all_phones[1],
+                                          workphone=all_phones[2], secondaryphone=all_phones[3]))
         return list(self.contact_cache)
