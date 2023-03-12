@@ -136,9 +136,6 @@ class ContactHelper:
         return Contact(homephone=homephone, mobilephone=mobilephone, workphone=workphone,
                        secondaryphone=secondaryphone)
 
-
-
-
     def is_list_empty(self):
         wd = self.app.wd
         self.open_contact_list()
@@ -161,8 +158,7 @@ class ContactHelper:
                 lastname = element.find_element(By.XPATH, "./td[2]").text
                 firstname = element.find_element(By.XPATH, "./td[3]").text
                 id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-                all_phones = cells[5].text.splitlines()
+                all_phones = cells[5].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
-                                                  homephone=all_phones[0], mobilephone=all_phones[1],
-                                          workphone=all_phones[2], secondaryphone=all_phones[3]))
+                                                  all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
