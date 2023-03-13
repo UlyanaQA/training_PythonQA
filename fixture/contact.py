@@ -34,7 +34,7 @@ class ContactHelper:
         self.change_contact_field("title", contact.title)
         self.change_contact_field("company", contact.company)
         self.change_contact_field("address", contact.address)
-        self.change_contact_field("home", contact.phone1)
+        self.change_contact_field("home", contact.homephone)
         self.change_contact_field("mobile", contact.mobilephone)
         self.change_contact_field("work", contact.workphone)
         self.change_contact_field("fax", contact.fax)
@@ -49,7 +49,7 @@ class ContactHelper:
         self.change_contact_date("amonth", contact.amonth)
         self.change_contact_field("ayear", contact.ayear)
         self.change_contact_field("address2", contact.address2)
-        self.change_contact_field("phone2", contact.phone2)
+        self.change_contact_field("phone2", contact.secondaryphone)
         self.change_contact_field("notes", contact.notes)
 
     def change_contact_field(self, field_name, text):
