@@ -1,4 +1,4 @@
-import json
+import jsonpickle
 import os.path
 import string
 import random
@@ -57,4 +57,5 @@ testdata = [Contact(firstname=random_string(10), middlename=random_string(10),
 file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
 
 with open(file, "w") as out:
-    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
+    jsonpickle.set_encoder_options("json", indent=2)
+    out.write(jsonpickle.encode(testdata))
