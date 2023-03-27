@@ -88,6 +88,20 @@ class ContactHelper:
         WebDriverWait(wd, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.msgbox")))
         self.contact_cache = None
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.open_contact_list()
+        wd.find_element(By.ID, id).click()
+        wd.find_element(By.XPATH, "//input[@value='Delete']").click()
+        # submit deletion
+        wd.switch_to.alert.accept()
+        WebDriverWait(wd, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.msgbox")))
+        self.contact_cache = None
+
     def edit_first_contact(self):
         self.edit_contact_by_index(0)
 
@@ -99,6 +113,21 @@ class ContactHelper:
         self.fill_contact_form(edit_contact)
         # submit edition
         wd.find_element(By.NAME, "update").click()
+        self.contact_cache = None
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element(By.CSS_SELECTOR, 'a[href="edit.php?id=%s"]' % id).click()
+
+    def edit_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(id)
+        # fill new contact data
+        self.fill_contact_form(new_contact_data)
+        # submit edition
+        wd.find_element(By.NAME, "update").click()
+        self.app.open_home_page()
         self.contact_cache = None
 
     def open_contact_to_edit_by_index(self, index):
