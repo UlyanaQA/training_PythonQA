@@ -22,7 +22,7 @@ for opt, val in opts:
         f = val
 
 def random_string(maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " " * 10
+    symbols = string.ascii_letters + string.digits
     return ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
