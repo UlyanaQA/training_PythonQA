@@ -1,8 +1,5 @@
 from datetime import datetime
-
 from pony.orm import *
-from pymysql.converters import decoders
-
 from model.contact import Contact
 from model.group import Group
 

@@ -200,3 +200,20 @@ class ContactHelper:
                                                   address=address, all_emails_from_home_page=all_emails,
                                                   all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
+
+    def add_contact_to_group(self, contact, group):
+        wd = self.app.wd
+        self.open_contact_list()
+        self.select_contact_by_id(contact.id)
+        wd.find_element(By.NAME, "to_group").\
+            find_element(By.CSS_SELECTOR, "option[value='%s']" % group.id).click()
+        wd.find_element(By.NAME, "add").click()
+        self.open_contact_list()
+
+    def delete_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        self.open_contact_list()
+        wd.find_element(By.NAME, "group").find_element(By.CSS_SELECTOR, "option[value='%s']" % group.id).click()
+        self.select_contact_by_id(contact.id)
+        wd.find_element(By.NAME, "remove").click()
+        self.open_contact_list()
