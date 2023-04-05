@@ -200,30 +200,6 @@ class ContactHelper:
                                                   all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
-    def clear(self, s):
-        return re.sub("[() -]", "", s)
-
-    def merge_emails_like_on_home_page(self, contact):
-        return '\n'.join(filter(lambda x: x != "" and x is not None, [contact.email1, contact.email2,
-                                                                      contact.email3]))
-
-    def merge_phones_like_on_home_page(self, contact):
-        return "\n".join(filter(lambda x: x != "",
-                                map(lambda x: self.clear(x),
-                                    filter(lambda x: x is not None,
-                                           [contact.homephone, contact.mobilephone, contact.workphone,
-                                            contact.secondaryphone]))))
-
-    def contact_like_on_home_page(self, contact):
-        contact = contact
-        firstname = contact.firstname.strip()
-        lastname = contact.lastname.strip()
-        all_phones = self.merge_phones_like_on_home_page(contact)
-        all_emails = self.merge_emails_like_on_home_page(contact)
-        return Contact(lastname=lastname, firstname=firstname, id=contact.id,
-                       all_phones_from_home_page=all_phones, address=contact.address,
-                       all_emails_from_home_page=all_emails)
-
     def add_contact_to_group(self, contact, group):
         wd = self.app.wd
         self.open_contact_list()
