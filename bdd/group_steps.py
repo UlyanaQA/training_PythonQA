@@ -23,7 +23,7 @@ def verify_group_added(db, group_list, new_group):
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)"""
 
 
-from pytest_bdd import given, when, then
+from pytest_bdd import given, when, then, parsers
 from model.group import Group
 import random
 
@@ -31,19 +31,17 @@ import random
 def group_list(db):
     return db.get_group_list()
 
-@given('a group with <name>, <header> and <footer>')
-def group_for_adding(name, header, footer):
-    return Group(name=name, header=header, footer=footer)
+@given(parsers.parse('a group with {name}, {header} and {footer}'), target_fixture='new_group')
 
 @when('I add the group to the list')
 def add_new_group(app, group_for_adding):
     app.group.create(group_for_adding)
 
 @then('the new group list is equal to the old group list with the added group')
-def verify_group_added(db, group_list, group_for_adding):
+def verify_group_added(db, group_list, add_new_group):
     old_groups = group_list
     new_groups = db.get_group_list()
-    old_groups.append(group_for_adding)
+    old_groups.append(add_new_group)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
 
