@@ -11,7 +11,18 @@ Scenario Outline: Add new group
 
 
 Scenario Outline: Delete a group
-  Given a non empty group list
+  Given a non-empty group list
   Given a random group from the list
   When I delete the group from the list
   Then the new group list is equal to the old group list without the deleted group
+
+Scenario Outline: Edit a group
+  Given a non-empty group list
+  Given a random group from the list
+  Given a group with <name>, <header> and <footer>
+  When I edit the group from the list
+  Then the new group list is equal to the old group list with the edited group
+
+  Examples:
+  | name  | header  | footer  |
+  | name_ | header_ | footer_ |

@@ -11,4 +11,10 @@ def test_add_new_group():
 def test_delete_group():
     pass
 
+@scenario('groups.feature', 'Edit a group')
+def test_edit_group():
+    pass
+
+
+
 
