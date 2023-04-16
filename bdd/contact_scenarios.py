@@ -1,4 +1,4 @@
-from pytest-bdd import scenario
+from pytest_bdd import scenario
 from .contact_steps import *
 
 
