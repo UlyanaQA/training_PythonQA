@@ -1,4 +1,4 @@
-from pytest_bdd import scenario
+from pytest-bdd import scenario
 from .group_steps import *
 
 
