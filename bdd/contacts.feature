@@ -26,3 +26,4 @@ Scenario Outline: Edit a contact
   Examples:
   | firstname  | lastname  | email  |
   | firstname_ | lastname_ | email_ |
+  | firstname* | lastname* | email* |

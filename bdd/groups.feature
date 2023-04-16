@@ -26,3 +26,4 @@ Scenario Outline: Edit a group
   Examples:
   | name  | header  | footer  |
   | name_ | header_ | footer_ |
+  | name* | header* | footer* |
