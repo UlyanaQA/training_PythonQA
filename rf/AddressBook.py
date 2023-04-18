@@ -1,13 +1,14 @@
 import json
 import os
+import random
 
 from fixture.application import Application
 from fixture.db import DbFixture
+from model.contact import Contact
 from model.group import Group
 
 
 class AddressBook:
-
     ROBOT_LIBRARY_SCOPE = 'TEST SUITE'
 
     def __int__(self, config="target.json", browser="chrome"):
@@ -22,23 +23,50 @@ class AddressBook:
         self.fixture.session.ensure_login(username=web_config['username'], password=web_config['password'])
         db_config = self.target["db"]
         self.dbfixture = DbFixture(host=db_config['host'], name=db_config['name'], user=db_config['user'],
-                              password=db_config['password'])
+                                   password=db_config['password'])
 
     def destroy_fixtures(self):
         self.dbfixture.destroy()
         self.fixture.destroy()
 
-
+    # For Group Scenarios
     def new_group(self, name, header, footer):
         return Group(name=name, header=header, footer=footer)
+
     def get_group_list(self):
         return self.dbfixture.get_group_list()
+
     def create_group(self, group):
         self.fixture.group.create(group)
 
     def delete_group(self, group):
         self.fixture.group.delete_group_by_id(group.id)
 
-
     def group_lists_should_be_equal(self, list1, list2):
         assert sorted(list1, key=Group.id_or_max) == sorted(list2, key=Group.id_or_max)
+
+    # For Contact Scenarios
+    def new_contact(self, firstname, lastname):
+        return Contact(firstname=firstname, lastname=lastname)
+
+    def get_contact_list(self):
+        return self.dbfixture.get_contact_list()
+
+    def create_contact(self, contact):
+        self.fixture.contact.create_new(contact)
+
+    def random_contact(self, list):
+        return random.choice(list)
+
+    def create_contact_data(self, firstname, lastname, old_contact):
+        return Contact(firstname=firstname, lastname=lastname, id=old_contact.id)
+
+    def delete_contact(self, contact):
+        self.fixture.contact.delete_group_by_id(contact.id)
+
+    def edit_contact(self, data_for_editing):
+        self.fixture.contact.edit_contact_by_id(data_for_editing)
+
+    # Common method
+    def contact_lists_should_be_equal(self, list1, list2):
+        assert sorted(list1, key=Contact.id_or_max) == sorted(list2, key=Contact.id_or_max)
