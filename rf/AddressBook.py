@@ -4,6 +4,7 @@ import random
 
 from fixture.application import Application
 from fixture.db import DbFixture
+from fixture.orm import ORMFixture
 from model.contact import Contact
 from model.group import Group
 
@@ -11,7 +12,7 @@ from model.group import Group
 class AddressBook:
     ROBOT_LIBRARY_SCOPE = 'TEST SUITE'
 
-    def __int__(self, config="target.json", browser="chrome"):
+    def __init__(self, config="target.json", browser="chrome"):
         self.browser = browser
         config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", config)
         with open(config_file) as f:
@@ -26,8 +27,8 @@ class AddressBook:
                                    password=db_config['password'])
 
     def destroy_fixtures(self):
-        self.dbfixture.destroy()
         self.fixture.destroy()
+
 
     # For Group Scenarios
     def new_group(self, name, header, footer):
@@ -58,15 +59,15 @@ class AddressBook:
     def random_contact(self, list):
         return random.choice(list)
 
+    def delete_contact(self, contact):
+        self.fixture.contact.delete_contact_by_id(contact.id)
+
     def create_contact_data(self, firstname, lastname, old_contact):
         return Contact(firstname=firstname, lastname=lastname, id=old_contact.id)
 
-    def delete_contact(self, contact):
-        self.fixture.contact.delete_group_by_id(contact.id)
+    def edit_contact(self, contact, new_contact):
+        new_contact.id = contact.id
+        self.fixture.contact.edit_contact_by_id(contact.id, new_contact)
 
-    def edit_contact(self, data_for_editing):
-        self.fixture.contact.edit_contact_by_id(data_for_editing)
-
-    # Common method
     def contact_lists_should_be_equal(self, list1, list2):
         assert sorted(list1, key=Contact.id_or_max) == sorted(list2, key=Contact.id_or_max)

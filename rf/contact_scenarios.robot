@@ -1,8 +1,8 @@
 *** Settings ***
-Library  rf.AddressBook
+Library   rf.AddressBook
 Library    Collections
-Suite Setup    Init Fixture
-Suite Teardown    Destroy Fixture
+Suite Setup        Init Fixtures
+Suite Teardown     Destroy Fixtures
 
 *** Test Cases ***
 Add new contact
@@ -11,23 +11,24 @@ Add new contact
     Create Contact  ${contact}
     ${new_list}=  Get Contact List
     Append To List  ${old_list}  ${contact}
-    Contact Lists Should Be Equal  ${new_list}  ${old_list}
+    Contact Lists Should be Equal  ${new_list}  ${old_list}
 
 Delete contact
     ${old_list}=  Get Contact List
-    ${len}=  Get Length  ${old_list}
-    ${index}=  Evaluate  random.randrange(${len})  random
-    ${contact}=  Get From List  ${old_list}  ${index}
-    Delete Group  ${contact}
-    ${new_list}=  Get Group List
-    Remove Values From List  ${old_list}
-    Contact Lists Should Be Equal  ${new_list}  ${old_list}
+    ${len}=  Get Length    ${old_list}
+    ${index}=  Evaluate    random.randrange(${len})  random
+    ${contact}=  Get From List    ${old_list}    ${index}
+    Delete Contact  ${contact}
+    ${new_list}=  Get Contact List
+    Remove Values From List  ${old_list}  ${contact}
+    Contact Lists Should be Equal  ${new_list}  ${old_list}
+
 
 Edit contact
     ${old_list}=  Get Contact List
     ${contact_for_editing}=  Random contact  ${old_list}
     ${contact_data}=  Create contact data  Edited_firstname  Edited_lastname  ${contact_for_editing}
-    Edit Contact  ${contact_data}
+    Edit Contact  ${contact_data}  ${contact_data}
     ${new_list}=  Get Contact List
     Remove values from list  ${old_list}  ${contact_for_editing}
     Append to list  ${old_list}  ${contact_data}

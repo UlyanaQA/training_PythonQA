@@ -1,8 +1,8 @@
 *** Settings ***
 Library  rf.AddressBook
 Library    Collections
-Suite Setup    Init Fixture
-Suite Teardown    Destroy Fixture
+Suite Setup    Init Fixtures
+Suite Teardown    Destroy Fixtures
 
 *** Test Cases ***
 Add new group
@@ -15,10 +15,10 @@ Add new group
 
 Delete group
     ${old_list}=  Get Group List
-    ${len}=  Get Length  ${old_list}
-    ${index}=  Evaluate  random.randrange(${len})  random
-    ${group}=  Get From List  ${old_list}  ${index}
+    ${len}=  Get Length    ${old_list}
+    ${index}=  Evaluate    random.randrange(${len})  random
+    ${group}=  Get From List    ${old_list}    ${index}
     Delete Group  ${group}
     ${new_list}=  Get Group List
-    Remove Values From List  ${old_list}
-    Group Lists Should Be Equal  ${new_list}  ${old_list}
+    Remove Values From List  ${old_list}  ${group}
+    Group Lists Should be Equal  ${new_list}  ${old_list}
